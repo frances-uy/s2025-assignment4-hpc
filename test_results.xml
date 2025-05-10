@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="4" failures="0" skipped="0" tests="4" time="33.686" timestamp="2025-05-09T23:41:03.416820-10:00" hostname="Frances-MBP.lan"><testcase classname="" name="tests.test_ddp" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/michelleuy/Desktop/github/s2025-assignment4-hpc/cs336-systems/tests/test_ddp.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../opt/anaconda3/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+cs336-systems/tests/test_ddp.py:13: in &lt;module&gt;
+    from .adapters import (
+cs336-systems/tests/adapters.py:7: in &lt;module&gt;
+    from ddp_overlap import DDP, BucketedDDP, ShardedOptimizer
+E   ImportError: cannot import name 'BucketedDDP' from 'ddp_overlap' (/Users/michelleuy/Desktop/github/s2025-assignment4-hpc/cs336-systems/ddp_overlap.py)</error></testcase><testcase classname="" name="tests.test_ddp_individual_parameters" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/michelleuy/Desktop/github/s2025-assignment4-hpc/cs336-systems/tests/test_ddp_individual_parameters.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../opt/anaconda3/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+cs336-systems/tests/test_ddp_individual_parameters.py:13: in &lt;module&gt;
+    from .adapters import (
+cs336-systems/tests/adapters.py:7: in &lt;module&gt;
+    from ddp_overlap import DDP, BucketedDDP, ShardedOptimizer
+E   ImportError: cannot import name 'BucketedDDP' from 'ddp_overlap' (/Users/michelleuy/Desktop/github/s2025-assignment4-hpc/cs336-systems/ddp_overlap.py)</error></testcase><testcase classname="" name="tests.test_rmsnorm" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/michelleuy/Desktop/github/s2025-assignment4-hpc/cs336-systems/tests/test_rmsnorm.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../opt/anaconda3/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+cs336-systems/tests/test_rmsnorm.py:5: in &lt;module&gt;
+    from .adapters import (
+cs336-systems/tests/adapters.py:7: in &lt;module&gt;
+    from ddp_overlap import DDP, BucketedDDP, ShardedOptimizer
+E   ImportError: cannot import name 'BucketedDDP' from 'ddp_overlap' (/Users/michelleuy/Desktop/github/s2025-assignment4-hpc/cs336-systems/ddp_overlap.py)</error></testcase><testcase classname="" name="tests.test_sharded_optimizer" time="0.000"><error message="collection failure">ImportError while importing test module '/Users/michelleuy/Desktop/github/s2025-assignment4-hpc/cs336-systems/tests/test_sharded_optimizer.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+../../../opt/anaconda3/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+cs336-systems/tests/test_sharded_optimizer.py:10: in &lt;module&gt;
+    from .adapters import get_sharded_optimizer
+cs336-systems/tests/adapters.py:7: in &lt;module&gt;
+    from ddp_overlap import DDP, BucketedDDP, ShardedOptimizer
+E   ImportError: cannot import name 'BucketedDDP' from 'ddp_overlap' (/Users/michelleuy/Desktop/github/s2025-assignment4-hpc/cs336-systems/ddp_overlap.py)</error></testcase></testsuite></testsuites>
