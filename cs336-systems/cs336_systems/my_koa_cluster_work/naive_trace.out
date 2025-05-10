@@ -1,0 +1,4 @@
+[rank1]:[W509 10:33:47.313751624 kineto_shim.cpp:415] Adding profiling metadata requires using torch.profiler with Kineto support (USE_KINETO=1)
+[rank1]:[W509 10:33:47.314005853 kineto_shim.cpp:415] Adding profiling metadata requires using torch.profiler with Kineto support (USE_KINETO=1)
+[rank0]:[W509 10:33:47.314176204 kineto_shim.cpp:415] Adding profiling metadata requires using torch.profiler with Kineto support (USE_KINETO=1)
+[rank0]:[W509 10:33:47.314349282 kineto_shim.cpp:415] Adding profiling metadata requires using torch.profiler with Kineto support (USE_KINETO=1)

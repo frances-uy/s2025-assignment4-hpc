@@ -1,0 +1,32 @@
+W0509 10:04:49.542000 584467 site-packages/torch/multiprocessing/spawn.py:160] Terminating process 584482 via signal SIGTERM
+Traceback (most recent call last):
+  File "/home/uyfm/cs336-benchmarking/benchmark_ddp_overlap.py", line 71, in <module>
+    benchmark(model_size="xl")  # Change model_size as needed
+  File "/home/uyfm/cs336-benchmarking/benchmark_ddp_overlap.py", line 68, in benchmark
+    mp.spawn(ddp_worker, args=(world_size, model_size), nprocs=world_size)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/multiprocessing/spawn.py", line 328, in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/multiprocessing/spawn.py", line 284, in start_processes
+    while not context.join():
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/multiprocessing/spawn.py", line 203, in join
+    raise ProcessRaisedException(msg, error_index, failed_process.pid)
+torch.multiprocessing.spawn.ProcessRaisedException: 
+
+-- Process 0 terminated with the following error:
+Traceback (most recent call last):
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/multiprocessing/spawn.py", line 90, in _wrap
+    fn(i, *args)
+  File "/home/uyfm/cs336-benchmarking/benchmark_ddp_overlap.py", line 17, in ddp_worker
+    dist.init_process_group("nccl", rank=rank, world_size=world_size)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/distributed/c10d_logger.py", line 83, in wrapper
+    return func(*args, **kwargs)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/distributed/c10d_logger.py", line 97, in wrapper
+    func_return = func(*args, **kwargs)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/distributed/distributed_c10d.py", line 1520, in init_process_group
+    store, rank, world_size = next(rendezvous_iterator)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/distributed/rendezvous.py", line 265, in _env_rendezvous_handler
+    master_addr = _get_env_or_raise("MASTER_ADDR")
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/distributed/rendezvous.py", line 243, in _get_env_or_raise
+    raise _env_error(env_var)
+ValueError: Error initializing torch.distributed using env:// rendezvous: environment variable MASTER_ADDR expected, but not set
+

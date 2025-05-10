@@ -1,0 +1,127 @@
+Backend,Device,World Size,Tensor Size (MB),Avg Time (s)
+gloo,cpu,2,0.5,1.4829635620117188e-05
+gloo,cpu,2,1,0.0006424665451049804
+gloo,cpu,2,10,0.009668803215026856
+gloo,cpu,2,50,0.0219085693359375
+gloo,cpu,2,100,0.03665049076080322
+gloo,cpu,2,500,0.18118445873260497
+gloo,cpu,2,1024,0.38068201541900637
+gloo,cpu,4,0.5,1.5306472778320313e-05
+gloo,cpu,4,1,0.0016726970672607422
+gloo,cpu,4,10,0.012886524200439453
+gloo,cpu,4,50,0.02893249988555908
+gloo,cpu,4,100,0.05771915912628174
+gloo,cpu,4,500,0.2916248321533203
+gloo,cpu,4,1024,0.6152363777160644
+gloo,cpu,6,0.5,2.574920654296875e-05
+gloo,cpu,6,1,0.006871652603149414
+gloo,cpu,6,10,0.015321135520935059
+gloo,cpu,6,50,0.03983104228973389
+gloo,cpu,6,100,0.07854630947113037
+gloo,cpu,6,500,0.396783447265625
+gloo,cpu,6,1024,0.8087306976318359
+gloo,cuda,2,0.5,3.361701965332031e-05
+gloo,cuda,2,1,0.0007026910781860352
+gloo,cuda,2,10,0.006184887886047363
+gloo,cuda,2,50,0.035138630867004396
+gloo,cuda,2,100,0.06976587772369384
+gloo,cuda,2,500,0.34748871326446534
+gloo,cuda,2,1024,0.7107637882232666
+gloo,cuda,4,0.5,3.7336349487304686e-05
+gloo,cuda,4,1,0.0012170076370239258
+gloo,cuda,4,10,0.010004734992980957
+gloo,cuda,4,50,0.06086199283599854
+gloo,cuda,4,100,0.12184991836547851
+gloo,cuda,4,500,0.6171139478683472
+gloo,cuda,4,1024,1.2707804679870605
+gloo,cuda,6,0.5,3.342628479003906e-05
+gloo,cuda,6,1,0.0017567157745361328
+gloo,cuda,6,10,0.013725042343139648
+gloo,cuda,6,50,0.08698558807373047
+gloo,cuda,6,100,0.1744152545928955
+gloo,cuda,6,500,0.8761825561523438
+gloo,cuda,6,1024,FAIL
+nccl,cuda,2,0.5,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,2,1,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,2,10,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,2,50,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,2,100,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,2,500,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,2,1024,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,4,0.5,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,4,1,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,4,10,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,4,50,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,4,100,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,4,500,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,4,1024,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,6,0.5,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,6,1,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,6,10,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,6,50,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,6,100,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,6,500,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"
+nccl,cuda,6,1024,"ERROR: NCCL error in: /opt/conda/envs/bld/conda-bld/libtorch_1741644046984/work/torch/csrc/distributed/c10d/NCCLUtils.hpp:317, invalid usage (run with NCCL_DEBUG=WARN for details), NCCL version 2.21.5
+ncclInvalidUsage: This usually reflects invalid usage of NCCL library.
+Last error:
+Duplicate GPU detected : rank 0 and rank 1 both on CUDA device 1b000"

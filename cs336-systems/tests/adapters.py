@@ -2,9 +2,9 @@
 from __future__ import annotations
 
 from typing import Type
-
 import torch
-
+from torch.autograd import Function
+from ddp_overlap import DDP, BucketedDDP, ShardedOptimizer
 
 def get_rmsnorm_autograd_function_pytorch() -> Type:
     """
@@ -15,8 +15,32 @@ def get_rmsnorm_autograd_function_pytorch() -> Type:
     Returns:
         A class object (not an instance of the class)
     """
-    # For example: return MyRMSNormAutogradFunctionClass
-    raise NotImplementedError
+    class RMSNormForwardPyTorch(Function):
+        @staticmethod
+        def forward(ctx, x, weight, eps=1e-5):
+            ctx.save_for_backward(x, weight)
+            ctx.eps = eps
+            rms = torch.sqrt((x ** 2).mean(dim=-1, keepdim=True) + eps)
+            return (x / rms) * weight
+
+        @staticmethod
+        def backward(ctx, grad_output):
+            x, weight = ctx.saved_tensors
+            eps = ctx.eps
+            H = x.shape[-1]
+
+            rms = torch.sqrt((x ** 2).mean(dim=-1, keepdim=True) + eps)
+            normed_x = x / rms
+
+            grad_weight = torch.sum(grad_output * normed_x, dim=tuple(range(x.ndim - 1)))
+            dx_norm = grad_output * weight
+
+            mean_dx_norm_x = (dx_norm * x).mean(dim=-1, keepdim=True)
+            grad_x = (dx_norm - normed_x * mean_dx_norm_x / (rms ** 2)) / rms
+
+            return grad_x, grad_weight, None
+
+    return RMSNormForwardPyTorch
 
 
 def get_rmsnorm_autograd_function_triton() -> Type:
@@ -31,88 +55,78 @@ def get_rmsnorm_autograd_function_triton() -> Type:
     Returns:
         A class object (not an instance of the class)
     """
-    # For example: return MyTritonRMSNormAutogradFunctionClass
-    raise NotImplementedError
+    import triton
+    import triton.language as tl
+
+    @triton.jit
+    def rmsnorm_fwd_kernel(x_ptr, w_ptr, y_ptr, eps, n_elements, BLOCK_SIZE: tl.constexpr):
+        pid = tl.program_id(0)
+        block_start = pid * BLOCK_SIZE
+        offsets = block_start + tl.arange(0, BLOCK_SIZE)
+        mask = offsets < n_elements
+
+        x = tl.load(x_ptr + offsets, mask=mask, other=0.0)
+        w = tl.load(w_ptr + offsets, mask=mask, other=1.0)
+        rms = tl.sqrt(tl.sum(x * x, axis=0) / n_elements + eps)
+        y = (x / rms) * w
+        tl.store(y_ptr + offsets, y, mask=mask)
+
+    class RMSNormForwardTriton(Function):
+        @staticmethod
+        def forward(ctx, x, weight, eps=1e-5):
+            ctx.save_for_backward(x, weight)
+            ctx.eps = eps
+            x = x.contiguous()
+            weight = weight.contiguous()
+            y = torch.empty_like(x)
+
+            B = x.numel() // x.shape[-1]
+            H = x.shape[-1]
+            grid = lambda meta: (B,)
+            rmsnorm_fwd_kernel[grid](
+                x_ptr=x,
+                w_ptr=weight,
+                y_ptr=y,
+                eps=eps,
+                n_elements=H,
+                BLOCK_SIZE=H,
+            )
+            return y
+
+        @staticmethod
+        def backward(ctx, grad_output):
+            raise NotImplementedError("Triton backward not implemented")
+
+    return RMSNormForwardTriton
 
 
-def rmsnorm_backward_g_pytorch(
-    grad_output: torch.Tensor, x: torch.Tensor, g: torch.Tensor
-) -> torch.Tensor:
-    """
-    Compute the gradient of the RMSNorm operation pass with respect to g.
-
-    Args:
-        grad_output: torch.Tensor
-            Gradient of the loss with respect to the output of the RMSNorm operation.
-            This has the same shape as x.
-        x: torch.Tensor
-            Input to the RMSNorm operation. Shape: (*, H)
-        g: torch.Tensor
-            The g learnable parameter of the RMSNorm layer. Shape: (H,)
-
-    Returns:
-        Gradient of the loss with respect to g. Shape: (H,)
-    """
-    raise NotImplementedError
+def rmsnorm_backward_g(grad_output: torch.Tensor, x: torch.Tensor, g: torch.Tensor, eps: float = 1e-5) -> torch.Tensor:
+    rms = torch.sqrt(x.pow(2).mean(dim=-1, keepdim=True) + eps)
+    grad_g = torch.sum(grad_output * (x / rms), dim=tuple(range(x.ndim - 1)))
+    return grad_g
 
 
 def rmsnorm_backward_x_pytorch(
-    grad_output: torch.Tensor, x: torch.Tensor, g: torch.Tensor
+    grad_output: torch.Tensor, x: torch.Tensor, g: torch.Tensor, eps: float = 1e-5
 ) -> torch.Tensor:
-    """
-    Compute the gradient of the RMSNorm operation pass with respect to x.
+    H = x.shape[-1]
+    rms = torch.sqrt((x ** 2).mean(dim=-1, keepdim=True) + eps)
+    normed_x = x / rms
 
-    Args:
-        grad_output: torch.Tensor
-            Gradient of the loss with respect to the output of the RMSNorm operation.
-            This has the same shape as x.
-        x: torch.Tensor
-            Input to the RMSNorm operation. Shape: (*, H)
-        g: torch.Tensor
-            The g learnable parameter of the RMSNorm layer. Shape: (H,)
-
-    Returns:
-        Gradient of the loss with respect to x. Shape: (*, H)
-    """
-    raise NotImplementedError
+    dx_norm = grad_output * g
+    mean_dx_norm_x = (dx_norm * x).mean(dim=-1, keepdim=True)
+    grad_x = (dx_norm - normed_x * mean_dx_norm_x / (rms ** 2)) / rms
+    return grad_x
 
 
 def get_ddp_individual_parameters(module: torch.nn.Module) -> torch.nn.Module:
-    """
-    Returns a torch.nn.Module container that handles
-    parameter broadcasting and gradient synchronization for
-    distributed data parallel training.
-
-    This container should overlaps communication with backprop computation
-    by asynchronously communicating gradients as they are ready
-    in the backward pass. The gradient for each parameter tensor
-    is individually communicated.
-
-    Args:
-        module: torch.nn.Module
-            Underlying model to wrap with DDP.
-    Returns:
-        Instance of a DDP class.
-    """
-    # For example: return DDPIndividualParameters(module)
-    raise NotImplementedError
+    return DDP(module)
 
 
 def ddp_individual_parameters_on_after_backward(
     ddp_model: torch.nn.Module, optimizer: torch.optim.Optimizer
 ):
-    """
-    Code to run after the backward pass is completed, but before we take
-    an optimizer step.
-
-    Args:
-        ddp_model: torch.nn.Module
-            DDP-wrapped model.
-        optimizer: torch.optim.Optimizer
-            Optimizer being used with the DDP-wrapped model.
-    """
-    # For example: ddp_model.finish_gradient_synchronization()
-    raise NotImplementedError
+    ddp_model.finish_gradient_synchronization()
 
 
 def get_ddp_bucketed(module: torch.nn.Module, bucket_size_mb: float) -> torch.nn.Module:
@@ -133,7 +147,7 @@ def get_ddp_bucketed(module: torch.nn.Module, bucket_size_mb: float) -> torch.nn
     Returns:
         Instance of a DDP class.
     """
-    raise NotImplementedError
+    return BucketedDDP(module, bucket_size_mb=bucket_size_mb)
 
 
 def ddp_bucketed_on_after_backward(
@@ -149,8 +163,7 @@ def ddp_bucketed_on_after_backward(
         optimizer: torch.optim.Optimizer
             Optimizer being used with the DDP-wrapped model.
     """
-    # For example: ddp_model.finish_gradient_synchronization()
-    raise NotImplementedError
+    ddp_model.finish_gradient_synchronization()
 
 
 def ddp_bucketed_on_train_batch_start(
@@ -165,7 +178,7 @@ def ddp_bucketed_on_train_batch_start(
         optimizer: torch.optim.Optimizer
             Optimizer being used with the DDP-wrapped model.
     """
-    raise NotImplementedError
+    pass  # Optional, depending on implementation
 
 
 def get_sharded_optimizer(
@@ -186,4 +199,4 @@ def get_sharded_optimizer(
     Returns:
         Instance of sharded optimizer.
     """
-    raise NotImplementedError
+    return ShardedOptimizer(params, optimizer_cls, **kwargs)

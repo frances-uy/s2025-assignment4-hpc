@@ -1,0 +1,25 @@
+=== Benchmarking FLAT DDP (SMALL model) ===
+Traceback (most recent call last):
+  File "/home/uyfm/cs336-benchmarking/benchmark_flat_ddp.py", line 31, in <module>
+    launch_flat_ddp(world_size=2, model_fn=make_model("small"), x=x, y=y)
+  File "/home/uyfm/cs336-benchmarking/ddp_flat_trainer.py", line 71, in launch_flat_ddp
+    mp.spawn(run, args=(world_size, model_fn, x, y), nprocs=world_size)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/multiprocessing/spawn.py", line 328, in spawn
+    return start_processes(fn, args, nprocs, join, daemon, start_method="spawn")
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/multiprocessing/spawn.py", line 268, in start_processes
+    idx, process, tf_name = start_process(i)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/site-packages/torch/multiprocessing/spawn.py", line 263, in start_process
+    process.start()
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/multiprocessing/process.py", line 121, in start
+    self._popen = self._Popen(self)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/multiprocessing/context.py", line 288, in _Popen
+    return Popen(process_obj)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/multiprocessing/popen_spawn_posix.py", line 32, in __init__
+    super().__init__(process_obj)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/multiprocessing/popen_fork.py", line 19, in __init__
+    self._launch(process_obj)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/multiprocessing/popen_spawn_posix.py", line 47, in _launch
+    reduction.dump(process_obj, fp)
+  File "/home/uyfm/.conda/envs/cs336_systems/lib/python3.10/multiprocessing/reduction.py", line 60, in dump
+    ForkingPickler(file, protocol).dump(obj)
+AttributeError: Can't pickle local object 'make_model.<locals>.<lambda>'
